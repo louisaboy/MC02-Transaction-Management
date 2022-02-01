@@ -1,0 +1,66 @@
+
+
+table {
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-size: .8rem;
+}
+
+td {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+}
+
+#title {
+    width: 250px;
+}
+
+#year {
+    width: 50px;
+}
+
+#genre {
+    width: 150px;
+}
+
+#director {
+    width: 150px;
+}
+
+#actor1 {
+    width: 150px;
+}
+
+#actor2 {
+    width: 150px;
+}
+
+/* Customized Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

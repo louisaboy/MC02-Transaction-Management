@@ -1,0 +1,23 @@
+{
+  "name": "mc02-transaction-management",
+  "version": "1.0.0",
+  "description": "MC02 Transaction Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/louisaboy/MC02-Transaction-Management.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louisaboy/MC02-Transaction-Management/issues"
+  },
+  "homepage": "https://github.com/louisaboy/MC02-Transaction-Management#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}

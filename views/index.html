@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>MC02 Transactions</title>
+        <link rel="stylesheet" href="..\public\css\style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="..\public\script\script.js"></script>
+    </head>
+    <body>
+        <h1>Search</h1>
+        <label for="title-search">Title:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="year-search">Year:</label>
+        <select id="year-search"></select><br>
+        
+        <label for="genre-search">Genre:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="title-search">Director:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 1:  </label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 2:  </label>
+        <input type="text" id="title-search" name="title-search"><br>
+        <input type="submit" value="Submit"><br><br>
+        <table>
+            <tr>
+                <th id="title">Title</th>
+                <th id="year">Year</th>
+                <th id="genre">Genre</th>
+                <th id="director">Director</th>
+                <th id="actor1">Actor 1</th>
+                <th id="actor2">Actor 2</th>
+            </tr>
+            <tr>
+                <th>Sample Movie 1</th>
+                <th>2022</th>
+                <th>Horror</th>
+                <th>Sample Director 1</th>
+                <th>Sample Actor 1</th>
+                <th>Sample Actor 2</th>
+                <th><button id="edit-button">Edit</button></th>
+            </tr>
+            <tr>
+                <th>Sample Movie 2</th>
+                <th>2022</th>
+                <th>Horror</th>
+                <th>Sample Director 2</th>
+                <th>Sample Actor 3</th>
+                <th>Sample Actor 4</th>
+                <th><button id="edit-button">Edit</button></th>
+            </tr>
+        </table>
+        <br>
+        <button id="add-button">Add Movie</button>
+    </body>
+</html>
+
