@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>MC02 Transactions</title>
+        <link rel="stylesheet" href="..\public\css\style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="..\public\script\script.js"></script>
+    </head>
+    <body>
+        <h1>Add Movie</h1>
+        <label for="title-search">Title:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="year-search">Year:</label>
+        <select id="year-search"></select><br>
+        
+        <label for="genre-search">Genre:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="title-search">Director:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 1:  </label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 2:  </label>
+        <input type="text" id="title-search" name="title-search"><br><br>
+        <button id="add-button">Back</button>
+        <input type="submit" value="Submit">
+        
+        
+    </body>
+</html>
+
+<script>
+    // For Year Dropdown
+    let dateDropdown = document.getElementById('year-search'); 
+        
+    let currentYear = new Date().getFullYear();    
+    let earliestYear = 1970;     
+    while (currentYear >= earliestYear) {      
+        let dateOption = document.createElement('option');          
+        dateOption.text = currentYear;      
+        dateOption.value = currentYear;        
+        dateDropdown.add(dateOption);      
+        currentYear -= 1;    
+    }
+</script>
