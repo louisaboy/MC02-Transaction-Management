@@ -1,33 +1,43 @@
 <html>
     <head>
         <title>MC02 Transactions</title>
-        <link rel="stylesheet" href="..\public\css\style.css">
+        <link rel="stylesheet" href="..\public\css\form.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="..\public\script\script.js"></script>
     </head>
     <body>
-        <h1>Edit Movie</h1>
-        <label for="title-search">Title:</label>
-        <input type="text" id="title-search" name="title-search"><br>
-        
-        <label for="year-search">Year:</label>
-        <select id="year-search"></select><br>
-        
-        <label for="genre-search">Genre:</label>
-        <input type="text" id="title-search" name="title-search"><br>
-        
-        <label for="title-search">Director:</label>
-        <input type="text" id="title-search" name="title-search"><br>
-
-        <label for="title-search">Actor 1:  </label>
-        <input type="text" id="title-search" name="title-search"><br>
-
-        <label for="title-search">Actor 2:  </label>
-        <input type="text" id="title-search" name="title-search"><br><br>
-        <button id="add-button">Back</button>
-        <input type="submit" value="Submit">
-        
-        
+        <div class="container">
+            <h1>Edit Movie</h1>
+            <form action="add.html" method="post">
+            
+                <label>Movie Title</label>
+                <input type="text" name="movie" class="movie" id="movie" placeholder="Movie Title"><br>
+                <label for="year-search">Year of Release</label>
+                <select id="year-search"></select><br>
+                <label>Genre</label>
+                <select name="genre" id="genre" class="genre">
+                    <option value="Action">Action</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Mystery">Mystery</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Science Fictin">Science Fiction</option>
+                    <option value="Musical">Musical</option>
+                    <option value="Animation">Animation</option>
+                </select><br>
+                <label>Movie Director</label>
+                <input type="text" name="director" class="director" id="director" placeholder="Movie Director"><br>
+                <label>Movie Actor 1</label>
+                <input type="text" name="actor1" class="actor1" id="actor1" placeholder="Movie Actor 1"><br>
+                <label>Movie Actor 2</label>
+                <input type="text" name="actor2" class="actor2" id="actor2" placeholder="Movie Actor 2"><br>
+                <button id="add-button">Back</button>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     </body>
 </html>
 
