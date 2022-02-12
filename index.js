@@ -1,32 +1,23 @@
-const express = require(`express`);
-const dotenv = require(`dotenv`);
-var bodyparser = require('body-parser');
-const hbs = require(`hbs`);
-const routes = require(`./routes/routes.js`);
-const db = require(`./models/db.js`);
-const app = express();
 
-app.use(express.urlencoded({extended:true}));
+const db = require(`./models/database.js`);
+var dotenv = require('dotenv').config();
+var express = require('express');
+var app = express();
+
 app.use(express.json());
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
+// app.set(`view engine`, `hbs`);
+// hbs.registerPartials(__dirname + `/views/partials`);
 
-app.set(`view engine`, `hbs`);
-hbs.registerPartials(__dirname + `/views/partials`);
-
-dotenv.config();
-
-port = 3000 || process.env.PORT;
-hostname = "localhost" || process.env.HOSTNAME;
+const port = process.env.PORT || 3000;
+// hostname = "localhost" || process.env.HOSTNAME;
 
 app.use(express.static(`public`));
-app.use(fileUpload());
-app.use(`/`, routes);
+// // app.use(`/`, routes);
 
-db.connect();
+// // db.connect();
 
 app.listen(port, hostname, function () {
     console.log(`Server is running at:`);
-    console.log(`http://` + hostname + `:` + port);
+    console.log(`http://` + "localhost" + `:` + port);
 });

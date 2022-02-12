@@ -1,23 +1,22 @@
 // createConnection - we have to manage from our side we have to do and close the connection
 // createPool - we can create a pool of connections
-const { 
-    createPool
-} = require('mysql');
+const mysql = require('mysql');
+require('dotenv').config();
 
-const pool = createPool ({
-    host: "localhost",
-    user:"root",
-    password: "",
-    database: "test",
-    connectionLimit: 10
+// connectionLimit how many parallel connections you want
+// Create connection to MySQL
+const pool = mysql.createConnection ({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 })
-
-pool.query(`select * from <schema>`, (err, result, fields)=>{
-    if(err){
-        return console.log(err);
+// 
+pool.connect((err) => {
+    if(err) {
+        throw err;
     }
-    return console.log(result);
+    console.log('MySql Connected');
 })
-
 // this makes pool be accessible to other files
 module.exports = pool;
