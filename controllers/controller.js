@@ -4,20 +4,24 @@ const db = require('../models/database.js');
 const controller = {
     getIndex: function (req, res) {
         // SELECT ALL
-        let sql = "SELECT * FROM movies";
+        // let sql = "SELECT * FROM movies";
 
-        db.query(sql, function(err, results) {
-            if(err) throw err;
-            res.send(results);
-        });
+        // db.query(sql, function(err, results) {
+        //     if(err) throw err;
+        //     res.send(results);
+        // });
         
         // in progress 
         // bug: syntax error when updating multiple columns (+rank) year is int and rank is float;
         let data = {name: "movie5", year: 2004, rank: 100};
         const userId = '10000002';
-        // sqlUpdate = "UPDATE movies SET name='" + data.name + "', year='" + data.year + "' where id = '" + userId +";";
+        // sqlUpdate = "UPDATE movies SET name='" + data.name + "', year='" + data.year + "' where id = '" + userId +";"
         sqlUpdate = "UPDATE movies SET name = '" + data.name + "', year = '" + data.year + "'WHERE id = " + userId + ";"
-        console.log
+
+        //delete statement
+        // dis works sa SQL koo so i placed it here na rin
+        // sqlUpdate = "DELETE FROM movies WHERE id = '" + userId + "';"
+
             db.query(sqlUpdate, (err, result) => {
                 if (err) throw err;
                 console.log(result);
@@ -53,13 +57,13 @@ const controller = {
         res.render('add-movie');
     },
     postAdd: function (req, res) {
-
+        res.render('index');
     },
     postEdit: function (req, res) {
-
+        res.render('index');
     },
     postDelete: function (req, res) {
-
+        res.render('index');
     },
 }
 
