@@ -20,8 +20,6 @@ hbs.registerPartials(__dirname + `/views/partials`);
 const port = process.env.PORT || 3000;
 // hostname = "localhost" || process.env.HOSTNAME;
 
-app.set(`view engine`, `hbs`);
-hbs.registerPartials(__dirname + `/views/partials`);
 app.use(`/`, routes);
 
 

@@ -1,9 +1,8 @@
 <html>
     <head>
         <title>MC02 Transactions</title>
-        <link rel="stylesheet" href="..\public\css\style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="\script\script.js"></script>
+        <link rel="stylesheet" href="css\style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <h1>Search</h1>
@@ -15,20 +14,8 @@
         
         <label for="rank-search">Rank:</label>
         <input type="text" id="year-search" name="rank-search"><br>
-
-        <button id="search">Search</button>
-        {{!-- <label for="genre-search">Genre:</label>
-        <input type="text" id="title-search" name="title-search"><br>
-        
-        <label for="title-search">Director:</label>
-        <input type="text" id="title-search" name="title-search"><br>
-
-        <label for="title-search">Actor 1:  </label>
-        <input type="text" id="title-search" name="title-search"><br>
-
-        <label for="title-search">Actor 2:  </label>
-        <input type="text" id="title-search" name="title-search"><br>
-        <input type="submit" value="Submit"><br><br> --}}
+        <div id="hatdog">asdfsdf</div>
+        <button id="search-button">Search</button></a>
         <table>
             <thead>
                 <tr>
@@ -42,7 +29,7 @@
                 {{#each movies}}
                     <tr>
                         <td>{{name}}</td>
-                        <td>{{year}}2</td>
+                        <td>{{year}}</td>
                         <td>{{rank}}</td>
                         <td><button id="edit-button">Edit</button><button id="edit-button">Delete</button></th>
                     </tr>
@@ -54,5 +41,30 @@
         <br>
         <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
     </body>
+    
 </html>
+<script>
+    $(document).ready(function() {
+        $('#search-button').click(function() {
+            var name = $('#title-search').val();
+            var year = $('#year-search').find(":selected").text();
+            var rank = $('#rank-search').val();
+
+            if (name == "")
+                name = ""
+
+            if (year == "")
+                year = 0
+
+            if (rank == "" || rank == undefined)
+                rank = -1
+
+            $.post('/search-movie', {name: name, year: year, rank: rank},function(err) {
+                if(err) throw err
+            });
+        });
+
+        
+    });
+</script>
 

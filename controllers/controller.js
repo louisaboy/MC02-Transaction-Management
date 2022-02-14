@@ -2,6 +2,7 @@
 const Connection = require('mysql/lib/Connection');
 const db = require('../models/database.js');
 
+
 const controller = {
     getIndex: function (req, res) {
         // SELECT ALL
@@ -18,18 +19,6 @@ const controller = {
             if(err) throw err;
             res.render('index', {movies: results});
         });
-        
-        // in progress 
-        // bug: syntax error when updating multiple columns (+rank) year is int and rank is float;
-        // let data = {name: "movie5", year: 2004, rank: 100};
-        // const userId = '10000001';
-        // // sqlUpdate = "UPDATE movies SET `name`='" + data.name + "', `year`=" + data.year + "' where id = '" + userId +";";
-        // sqlUpdate = "UPDATE movies SET `name` = '" + data.name + "', `year` = '" + data.year + "', `rank` = '" + data.rank + "'WHERE id = " + userId + ";"
-        // console.log
-        //     db.query(sqlUpdate, (err, result) => {
-        //         if (err) throw err;
-        //         console.log(result);
-        //     });
     },
     getEdit: function (req, res) {
         const userId = req.query.id;
@@ -41,7 +30,15 @@ const controller = {
         res.render('edit-movie')
     },
     getAdd: function (req, res) {
-        res.render('add-movie');
+        res.render('add-movie', {movies: results});
+    },
+    getSearch: function (req, res) {
+        console.log("id " + req.params.id);
+        let sql = "SELECT * FROM movies WHERE `id` = " + req.params.id;
+        db.query(sql, function(err, results) {
+            if(err) throw err;
+            res.render('index', {movies: results});
+        });
     },
     postAdd: function (req, res) {
         
@@ -72,13 +69,23 @@ const controller = {
         res.render('index');
     },
     postDelete: function (req, res) {
+        // sqlUpdate = "DELETE FROM movies WHERE id = '" + userId + "';"
+
+        db.query(sqlUpdate, (err, result) => {
+            if (err) throw err;
+            console.log(result);
+        });
         res.render('index');
     },
     postSearch: function (req, res) {
-        var name = req.body.name;
+        var name = "'" +req.body.name + "'" ;
         var year = req.body.year;
         var rank = req.body.rank;
         let sql;
+        
+        console.log("name : " + name);
+        console.log("year : " + year);
+        console.log("rank : " + rank);
 
         if (name != "" && year != 0 && rank != -1)
             sql = "SELECT * FROM movies WHERE `name` = " + name + ", `year` = " + year + ", `rank` = " + rank;
@@ -92,10 +99,19 @@ const controller = {
         if (name != "" && year == 0 && rank != -1)
             sql = "SELECT * FROM movies WHERE `name` = " + name + ", `rank` = " + rank;
 
-        db.query(sql, function(err, results) {
-            if(err) throw err;
-            res.render('index', {movies: results});
-    });
+        var id;
+        if (name != "" || year != 0 || rank != -1) {
+            console.log(sql);
+            db.query(sql, function(err, results) {
+                if(err) throw err;
+                id = results[0].id;
+                console.log(id);
+                const url = 'http://localhost:3000/search/' + id;
+                console.log(url);
+                res.redirect(307, url);
+            });
+            
+        }
     }
 }
 
