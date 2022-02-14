@@ -1,6 +1,6 @@
 
 const Connection = require('mysql/lib/Connection');
-const db = require('../models/database.js');
+const db = require('../models/database1.js');
 
 
 const controller = {
