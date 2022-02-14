@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>MC02 Transactions</title>
+        <link rel="stylesheet" href="..\public\css\style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="\script\script.js"></script>
+    </head>
+    <body>
+        <h1>Search</h1>
+        <label for="title-search">Title:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="year-search">Year:</label>
+        <select id="year-search"></select><br>
+        
+        <label for="rank-search">Rank:</label>
+        <input type="text" id="year-search" name="rank-search"><br>
+
+        <button id="search">Search</button>
+        {{!-- <label for="genre-search">Genre:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+        
+        <label for="title-search">Director:</label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 1:  </label>
+        <input type="text" id="title-search" name="title-search"><br>
+
+        <label for="title-search">Actor 2:  </label>
+        <input type="text" id="title-search" name="title-search"><br>
+        <input type="submit" value="Submit"><br><br> --}}
+        <table>
+            <thead>
+                <tr>
+                    <th id="title">Title</th>
+                    <th id="year">Year</th>
+                    <th id="rank">Rank</th>
+                    <th id="Actions">Actions</th>
+                </tr>
+            </thead>
+                <tbody>
+                {{#each movies}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{year}}2</td>
+                        <td>{{rank}}</td>
+                        <td><button id="edit-button">Edit</button><button id="edit-button">Delete</button></th>
+                    </tr>
+                {{else}}
+                    <p>No movies to display</p>
+                {{/each}}
+                </tbody>
+        </table>
+        <br>
+        <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
+    </body>
+</html>
+

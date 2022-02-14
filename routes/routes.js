@@ -10,7 +10,8 @@ app.get('/edit-movie', controller.getEdit);
 // app.get('/delete-movie', controller.getDelete);
 
 // for post
-// app.post('/add-movie', controller.postAdd);
-// app.post('/edit-movie', controller.postEdit);
+app.post('/add-movie', controller.postAdd);
+app.post('/search-movie', controller.postSearch);
+app.post('/edit-movie', controller.postEdit);
 
 module.exports = app;
