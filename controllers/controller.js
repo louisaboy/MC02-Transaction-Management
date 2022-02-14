@@ -38,7 +38,7 @@ const controller = {
         db.query(sqlSelect, (err, result) => {
             if (err) throw err;
             console.log(result);
-            res.render('edit-movie', {name: result[0].name, year: result[0].year, rank: result[0].rank})
+            res.render('edit-movie', {name: result[0].name, year: result[0].year, rank: result[0].rank, id: id})
         });
     },
     getAdd: function (req, res) {
@@ -70,8 +70,8 @@ const controller = {
         res.redirect('/');
     },
     postEdit: function (req, res) {
-        var userId = req.body.id;
-        var sqlUpdate = "UPDATE movies SET `name`='" + req.body.name + "', `year`='" + req.body.year + "', `rank`='" + req.body.rank + "' where id = '" + userId;
+        var userId = req.param.id;
+        var sqlUpdate = "UPDATE movies SET `name`='" + req.body.name + "', `year`=" + req.body.year + ", `rank`=" + req.body.rank + " WHERE `id` = " + userId;
         db.query(sqlUpdate, (err, result) => {
             if (err) throw err;
             console.log(result);

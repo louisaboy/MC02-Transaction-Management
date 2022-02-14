@@ -12,13 +12,13 @@
             <form action="add.html" method="post">
             
                 <label>Movie Title</label>
-                <input type="text" name="name" class="name" id="name" placeholder="{{name}}" required><br>
+                <input type="text" name="name" class="name" id="name" value="{{name}}" required><br>
                 <label for="year">Year of Release</label>
                 <select id="year" name="year" required>
                     <option value="" disabled selected> {{year}}</option>
                 </select><br>
                 <label>Rank</label>
-                <input type="text" name="rank" class="rank" id="rank" placeholder="{{rank}}" required><br>
+                <input type="text" name="rank" class="rank" id="rank" value="{{rank}}" required><br>
                 <input type="submit" class="submit" id="submit" value="Submit">
             </form>
             
