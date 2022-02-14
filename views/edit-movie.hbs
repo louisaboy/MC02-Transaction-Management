@@ -1,31 +1,34 @@
 <html>
     <head>
         <title>MC02 Transactions</title>
-        <link rel="stylesheet" href="..\public\css\form.css">
+        <link rel="stylesheet" href="\css\form.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="/script/script.js"></script>
     </head>
     <body>
         <div class="container">
+            <a href="/"><button id="back-button">Back</button></a>
             <h1>Edit Movie</h1>
             <form action="add.html" method="post">
             
                 <label>Movie Title</label>
-                <input type="text" name="title" class="title" id="title" placeholder="Movie Title" required><br>
-                <label for="year-search">Year of Release</label>
-                <select id="year-search" required></select><br>
+                <input type="text" name="name" class="name" id="name" placeholder="{{name}}" required><br>
+                <label for="year">Year of Release</label>
+                <select id="year" name="year" required>
+                    <option value="" disabled selected> {{year}}</option>
+                </select><br>
                 <label>Rank</label>
-                <input type="text" name="rank" class="rank" id="rank" placeholder="Rank" required><br>
-                <a href="/"><button id="back-button">Back</button></a>
-                <input type="submit" value="Submit">
+                <input type="text" name="rank" class="rank" id="rank" placeholder="{{rank}}" required><br>
+                <input type="submit" class="submit" id="submit" value="Submit">
             </form>
+            
         </div>
     </body>
 </html>
 
 <script>
     // For Year Dropdown
-    let dateDropdown = document.getElementById('year-search'); 
+    let dateDropdown = document.getElementById('year'); 
         
     let currentYear = new Date().getFullYear();    
     let earliestYear = 1970;     

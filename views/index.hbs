@@ -21,7 +21,10 @@
                         <td>{{name}}</td>
                         <td>{{year}}</td>
                         <td>{{rank}}</td>
-                        <td><button id="edit-button">Edit</button><button id="edit-button">Delete</button></th>
+                        <td>
+                        <a href="/edit-movie/{{id}}"><button id="edit-button">Edit</button></a>
+                        <a href="/delete-movie/{{id}}"><button id="delete-button">Delete</button></a>
+                        </th>
                     </tr>
                 {{else}}
                     <p>No movies to display</p>

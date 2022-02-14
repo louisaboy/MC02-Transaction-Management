@@ -21,13 +21,14 @@ const controller = {
         });
     },
     getEdit: function (req, res) {
-        const userId = req.query.id;
-        sqlUpdate = "UPDATE movies SET `name`='" + req.query.name + "', `year`='" + req.query.year + "', `rank`='" + req.query.rank + "' where id = '" + userId;
-            db.query(sqlUpdate, (err, result) => {
-                if (err) throw err;
-                console.log(result);
-            });
-        res.render('edit-movie')
+        var id = req.params.id;
+        var sqlSelect = "SELECT * FROM movies WHERE `id` = " + id;
+
+        db.query(sqlSelect, (err, result) => {
+            if (err) throw err;
+            console.log(result);
+            res.render('edit-movie', {name: result[0].name, year: result[0].year, rank: result[0].rank})
+        });
     },
     getAdd: function (req, res) {
         res.render('add-movie', {movies: results});
@@ -66,16 +67,24 @@ const controller = {
         res.redirect('/');
     },
     postEdit: function (req, res) {
-        res.render('index');
-    },
-    postDelete: function (req, res) {
-        // sqlUpdate = "DELETE FROM movies WHERE id = '" + userId + "';"
-
+        var userId = req.body.id;
+        var sqlUpdate = "UPDATE movies SET `name`='" + req.body.name + "', `year`='" + req.body.year + "', `rank`='" + req.body.rank + "' where id = '" + userId;
         db.query(sqlUpdate, (err, result) => {
             if (err) throw err;
             console.log(result);
         });
-        res.render('index');
+        res.render('/');
+    },
+    postDelete: function (req, res) {
+        console.log("AAAAAAAAAAAAA");
+        var id = req.params.id;
+        var sqlDelete = "DELETE FROM movies WHERE `id` = " + id + ";"
+
+        db.query( sqlDelete, (err, result) => {
+            if (err) throw err;
+            console.log("Query Deleted");
+            res.render('/');
+        });        
     },
     postSearch: function (req, res) {
         var name = "'" +req.body.name + "'" ;
