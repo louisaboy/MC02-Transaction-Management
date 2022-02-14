@@ -69,10 +69,10 @@ const controller = {
         res.redirect('/');
     },
     postEdit: function (req, res) {
-
+        res.render('index');
     },
     postDelete: function (req, res) {
-
+        res.render('index');
     },
     postSearch: function (req, res) {
         var name = req.body.name;
