@@ -3,7 +3,7 @@
         <title>MC02 Transactions</title>
         <link rel="stylesheet" href="..\public\css\style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="\script\script.js"></script>
+        {{!-- <script src="../public/script/script.js"></script> --}}
     </head>
     <body>
         <h1>Search</h1>
@@ -42,9 +42,12 @@
                 {{#each movies}}
                     <tr>
                         <td>{{name}}</td>
-                        <td>{{year}}2</td>
+                        <td>{{year}}</td>
                         <td>{{rank}}</td>
-                        <td><button id="edit-button">Edit</button><button id="edit-button">Delete</button></th>
+                        <td>
+                        <a href="/edit-movie/{{id}}"><button id="edit-button">Edit</button></a>
+                        <a href="/delete-movie/{{id}}"><button id="delete-button">Delete</button></a>
+                        </th>
                     </tr>
                 {{else}}
                     <p>No movies to display</p>
