@@ -5,7 +5,7 @@ const fs = require('fs');
 const { deflateSync } = require('zlib');
 require('dotenv').config();
 const path = require('path');
-
+var isNode2Online = true;
 // connectionLimit how many parallel connections you want
 // Create connection to MySQL
 const pool = mysql.createConnection ({
@@ -17,9 +17,13 @@ const pool = mysql.createConnection ({
 // 
 pool.connect((err) => {
     if(err) {
+        isNode2Online = false;
         throw err;
     }
-    console.log('MySql Connected');
+    else {
+        isNode2Online = true;
+        console.log('MySql Connected');
+    }
 })
 
 // insert here your own server/database

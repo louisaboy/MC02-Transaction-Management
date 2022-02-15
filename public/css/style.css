@@ -10,6 +10,7 @@ table {
 
 td {
     text-align: center;
+    height: 30px;
 }
 
 tr:nth-child(even) {
@@ -22,26 +23,18 @@ th {
 }
 
 #title {
-    width: 250px;
+    width: 500px;
 }
 
 #year {
-    width: 50px;
+    width: 200px;
 }
 
-#genre {
-    width: 150px;
+#rank {
+    width: 200px;
 }
 
-#director {
-    width: 150px;
-}
-
-#actor1 {
-    width: 150px;
-}
-
-#actor2 {
+#actions {
     width: 150px;
 }
 

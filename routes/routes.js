@@ -7,12 +7,10 @@ const app = express();
 app.get('/', controller.getIndex);
 app.get('/add-movie', controller.getAdd);
 app.get('/edit-movie/:id', controller.getEdit);
-// app.get('/delete-movie', controller.getDelete);
+app.get('/delete-movie/:id-:year', controller.postDelete);
 
 // for post
 app.post('/add-movie', controller.postAdd);
-app.post('/search-movie', controller.postSearch);
-app.post('/edit-movie/:id', controller.postEdit);
-app.post('/delete-movie/:id', controller.postDelete);
+app.post('/edit-movie', controller.postEdit);
 
 module.exports = app;

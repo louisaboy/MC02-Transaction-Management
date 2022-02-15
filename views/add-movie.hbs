@@ -43,20 +43,8 @@
                 $.post('/add-movie', {name: name, year: year, rank: rank},function(err) {
                     if(err) throw err
                 });
+                setTimeout('location.assign("/")', 500);
             });
-
-            {{!-- $('#add-button').on('keyup', function(){
-            
-                var title = $('#name').val();
-                var year = $('#year').val();
-                var rank = $('#rank').val();
-
-                if(title == "" || year == ""  || rank == "" ){
-                    $('#add-button').attr('disabled','disabled');
-                } else {
-                    $('#add-button').removeAttr('disabled');
-                }
-            }); --}}
         });
         
     </script>

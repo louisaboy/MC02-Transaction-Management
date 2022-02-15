@@ -23,7 +23,7 @@
                         <td>{{rank}}</td>
                         <td>
                         <a href="/edit-movie/{{id}}"><button id="edit-button">Edit</button></a>
-                        <a href="/delete-movie/{{id}}"><button id="delete-button">Delete</button></a>
+                        <a href="/delete-movie/{{id}}-{{year}}"><button id="delete-button">Delete</button></a>
                         </th>
                     </tr>
                 {{else}}
@@ -38,26 +38,6 @@
 </html>
 <script>
     $(document).ready(function() {
-        $('#search-button').click(function() {
-            var name = $('#title-search').val();
-            var year = $('#year-search').find(":selected").text();
-            var rank = $('#rank-search').val();
-
-            if (name == "")
-                name = ""
-
-            if (year == "")
-                year = 0
-
-            if (rank == "" || rank == undefined)
-                rank = -1
-
-            $.post('/search-movie', {name: name, year: year, rank: rank},function(err) {
-                if(err) throw err
-            });
-        });
-
-        
     });
 </script>
 
