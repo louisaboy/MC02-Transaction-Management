@@ -52,13 +52,12 @@ const controller = {
         // const offset = (page - 1) * limit;
 
         // let sql = "SELECT * FROM movies limit " + limit + "OFFSET " + offset;
-
-        let sql = "SELECT * FROM movies ORDER BY id DESC";
+        let sql = "SELECT COUNT(*) as count FROM movies";
         if (isNode1Online) {
             db1.query(sql, function(err, results) {
                 if(err) throw err;
 
-                const numOfResults = results.length;
+                const numOfResults = results[0].count;
                 const numberOfPages = Math.ceil(numOfResults/limit);
                 let page = req.query.page ? Number(req.query.page) : 1;
                 if (page > numberOfPages) {
@@ -77,9 +76,14 @@ const controller = {
                     if(endingLink < (page = 4)) {
                         iterator -= (page + 4) - numberOfPages;
                     }
-                    res.render('index', {movies: results, page, iterator, endingLink, numberOfPages});
+                    var currentPage = page;
+                    console.log("page count: ", numberOfPages);
+                    res.render('index', {movies: results, currentPage: currentPage, pageCount: numberOfPages, size: 5});
                 });
             });
+        }
+        else {
+
         }
         
 
@@ -184,9 +188,15 @@ const controller = {
         // node 1
         if (isNode1Online){
             console.log("Updating Node 1");
+            db1.query("START TRANSACTION", function (err, result) {
+            });
             db1.query(sqlUpdate, (err, result) => {
                 if (err) throw err;
                 console.log(result);
+            });
+            db1.query("COMMIT", function (err, result) {
+            });
+            db1.query("DO SLEEP(2)", function (err, result) {
             });
         }
         

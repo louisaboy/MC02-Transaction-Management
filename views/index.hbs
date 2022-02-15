@@ -32,28 +32,29 @@
                 </tbody>
         </table>
         <br>
-        <script >
-            {{#times iterator endlingLink}}
-            <a class="selectedLink" href="/?page=">{{@index}}</a>
-        </script id="page-template" type="text/x-handlebars-template">
+        {{#pagination currentPage pageCount size}}
+            <div class="pagination">
+            {{#unless startFromFirstPage}}
+                <a href="/?page=1">&lt;</a>
+            {{/unless}}
+
+            {{#each pages}}
+                {{#if isCurrent}}
+                [<a href="/?page={{currentPage}}">{{page}}</a>]
+                {{/if}}
+                {{#unless isCurrent}}
+                <a href="/?page={{currentPage}}">{{page}}</a>
+                {{/unless}}
+            {{/each}}
+            
+            {{#unless endAtLastPage}}
+                <a href="/?page={{this.pageCount}}">&gt;</a>
+            {{/unless}}
+            </div>
+        {{/pagination}}
+        <p>{{pageCount}}</p>
         <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
     </body>
     
 </html>
-<script>
-    Handlebars.registerHelper("times", function (person) {
-        return [person.firstName, person.lastName].join(" ");
-    });
-    $(document).ready(function(){
-        var source = $("#page-template").html();
-        var template = Handlebars.compile(source);
-        var person = {
-            firstName: "Joe",
-            lastName: "Last"
-        };
-        var html = template(person);
-        $(document.body).html(html);
-        
-    });
-</script>
 
