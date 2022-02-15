@@ -109,9 +109,8 @@ const controller = {
         setTimeout( function() {
             // for checking if max_id is still seen
             console.log("Max Id: " + max_row);
-            console.log(post.name);
+            
             // node 2
-            console.log(req.body.year + " ASDJSAKDASDSA")
             if (req.body.year < 1980 && isNode2Online) {
                 console.log("post: " + post);
                 db2.query(sqlInsert, post, (err, result) => {
