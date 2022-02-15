@@ -43,19 +43,38 @@ db1.connect(function(err) {
 const controller = {
     getIndex: function (req, res) {
         // SELECT ALL
-        // const limit = 20;
-
-        // const page = req.query.page;
+        const limit = 20;
 
         // const offset = (page - 1) * limit;
 
         // let sql = "SELECT * FROM movies limit " + limit + "OFFSET " + offset;
 
-        let sql = "SELECT * FROM movies order by `id` desc LIMIT 0, 20";
+        let sql = "SELECT * FROM movies ORDER BY id DESC";
         if (isNode1Online) {
             db1.query(sql, function(err, results) {
                 if(err) throw err;
-                res.render('index', {movies: results});
+
+                const numOfResults = results.length;
+                const numberOfPages = Math.ceil(numOfResults/limit);
+                let page = req.query.page ? Number(req.query.page) : 1;
+                if (page > numberOfPages) {
+                    res.redirect('/?page='+encodeURIComponent(numberOfPages));
+                } else if (page < 1) {
+                    res.redirect('/?page='+encodeURIComponent(1));
+                }
+                
+                // Determine the SQL Limit starting number
+                const startingLimit = (page - 1) * limit;
+                sql = `SELECT * FROM movies ORDER BY id DESC LIMIT ${startingLimit}, ` + limit;
+                db1.query(sql, function(err, results){
+                    if (err) throw err;
+                    let iterator = (page - 5) < 1 ? 1 : page - 5;
+                    let endingLink = (iterator + 9) <= numberOfPages ? (iterator + 9) : page + (numberOfPages - page);
+                    if(endingLink < (page = 4)) {
+                        iterator -= (page + 4) - numberOfPages;
+                    }
+                    res.render('index', {movies: results, page, iterator, endingLink, numberOfPages});
+                });
             });
         }
         
@@ -64,18 +83,23 @@ const controller = {
     getEdit: function (req, res) {
         var id = req.params.id;
         var sqlSelect = "SELECT * FROM movies WHERE `id` = " + id;
-
+        db1.query("START TRANSACTION", function (err, result) {
+        });
         db1.query(sqlSelect, (err, result) => {
             if (err) throw err;
             console.log(result);
             res.render('edit-movie', {name: result[0].name, year: result[0].year, rank: result[0].rank, id: id})
+        });
+        db1.query("COMMIT", function (err, result) {
+        });
+        db1.query("DO SLEEP(2)", function (err, result) {
         });
     },
     getAdd: function (req, res) {
         res.render('add-movie');
     },
     postAdd: async function (req, res) {
-        console.log("/n ------- ADDING ------- /n")
+        console.log("\n ------- ADDING ------- \n")
         var max_row = 0;
         var sql = "SELECT MAX(id) AS max_row FROM movies";
         var sqlInsert = "INSERT INTO movies SET ?";
@@ -95,10 +119,15 @@ const controller = {
                 console.log(max_row);
                 
                 post = {id: max_row, name: req.body.name, year: req.body.year, rank: req.body.rank};
-                
+                db1.query("START TRANSACTION", function (err, result) {
+                });
                 db1.query(sqlInsert, post, (err, result) => {
                     if (err) throw err;
                     console.log(result);
+                });
+                db1.query("COMMIT", function (err, result) {
+                });
+                db1.query("DO SLEEP(2)", function (err, result) {
                 });
             });
         }
@@ -109,19 +138,31 @@ const controller = {
             // node 2
             if (req.body.year < 1980 && isNode2Online) {
                 console.log("post: " + post);
+                // db2.query("START TRANSACTION", function (err, result) {
+                // });
                 // db2.query(sqlInsert, post, (err, result) => {
                 //     if (err) throw err;
                 //     console.log(result);
+                // });
+                // db2.query("COMMIT", function (err, result) {
+                // });
+                // db2.query("DO SLEEP(2)", function (err, result) {
                 // });
             }
 
             // node 3
             else if (req.body.year >= 1980 && isNode3Online) {
                 console.log("post: " + post);
+                db3.query("START TRANSACTION", function (err, result) {
+                });
                 // db3.query(sqlInsert, post, (err, result) => {
                 //     if (err) throw err;
                 //     console.log(result);
                 // });
+                db3.query("COMMIT", function (err, result) {
+                });
+                db3.query("DO SLEEP(2)", function (err, result) {
+                });
             }
             res.redirect('/');
         }, 500);
@@ -129,7 +170,7 @@ const controller = {
         
     },
     postEdit: async function (req, res) {
-        console.log("/n ------- UPDATING ------- /n")
+        console.log("\n ------- UPDATING ------- \n")
         var userId = req.body.id;
         var oldYear = req.body.oldYear;
         console.log("id: " + userId);
@@ -209,7 +250,7 @@ const controller = {
 
     },
     postDelete: async function (req, res) {
-        console.log("/n ------- DELETING ------- /n")
+        console.log("\n ------- DELETING ------- \n")
         var id = req.params.id;
         var year = req.params.year;
 
