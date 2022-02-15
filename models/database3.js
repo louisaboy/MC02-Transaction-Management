@@ -15,16 +15,16 @@ const pool = mysql.createConnection ({
     database: process.env.DB_NAME3,
 });
 // 
-pool.connect((err) => {
-    if(err) {
-        isNode3Online = false;
-        throw err;
-    }
-    else {
-        isNode3Online = true;
-        console.log('MySql Connected');
-    }
-})
+// pool.connect((err) => {
+//     if(err) {
+//         isNode3Online = false;
+//         throw err;
+//     }
+//     else {
+//         isNode3Online = true;
+//         console.log('MySql Connected');
+//     }
+// })
 
 // insert here your own server/database
 // const pool = mysql.createConnection ({
