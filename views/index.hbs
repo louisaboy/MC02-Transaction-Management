@@ -32,12 +32,28 @@
                 </tbody>
         </table>
         <br>
+        <script >
+            {{#times iterator endlingLink}}
+            <a class="selectedLink" href="/?page=">{{@index}}</a>
+        </script id="page-template" type="text/x-handlebars-template">
         <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
     </body>
     
 </html>
 <script>
-    $(document).ready(function() {
+    Handlebars.registerHelper("times", function (person) {
+        return [person.firstName, person.lastName].join(" ");
+    });
+    $(document).ready(function(){
+        var source = $("#page-template").html();
+        var template = Handlebars.compile(source);
+        var person = {
+            firstName: "Joe",
+            lastName: "Last"
+        };
+        var html = template(person);
+        $(document.body).html(html);
+        
     });
 </script>
 
