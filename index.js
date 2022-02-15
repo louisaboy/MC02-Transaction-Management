@@ -1,4 +1,6 @@
-const db = require(`./models/database.js`);
+const db1 = require(`./models/database1.js`);
+// const db2 = require(`./models/database2.js`);
+// const db3 = require(`./models/database2.js`);
 var dotenv = require('dotenv').config();
 var express = require('express');
 const hbs = require(`hbs`);

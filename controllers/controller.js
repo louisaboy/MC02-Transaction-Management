@@ -31,7 +31,7 @@ const controller = {
         });
     },
     getAdd: function (req, res) {
-        res.render('add-movie', {movies: results});
+        res.render('add-movie');
     },
     getSearch: function (req, res) {
         console.log("id " + req.params.id);

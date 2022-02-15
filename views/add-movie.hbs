@@ -22,15 +22,41 @@
     
     <script>
         // For Year Dropdown
-        let dateDropdown = document.getElementById('year-search'); 
+        $(document).ready(function() {
+            let dateDropdown = document.getElementById('year'); 
+                        
+            let currentYear = new Date().getFullYear();    
+            let earliestYear = 1970;     
+            while (currentYear >= earliestYear) {      
+                let dateOption = document.createElement('option');          
+                dateOption.text = currentYear;      
+                dateOption.value = currentYear;        
+                dateDropdown.add(dateOption);      
+                currentYear -= 1;    
+            };
+
+            $('#add-button').click(function() {
+                console.log("was here");
+                var name = $('#name').val();
+                var year = $('#year').find(":selected").text();
+                var rank = $('#rank').val();
+                $.post('/add-movie', {name: name, year: year, rank: rank},function(err) {
+                    if(err) throw err
+                });
+            });
+
+            {{!-- $('#add-button').on('keyup', function(){
             
-        let currentYear = new Date().getFullYear();    
-        let earliestYear = 1970;     
-        while (currentYear >= earliestYear) {      
-            let dateOption = document.createElement('option');          
-            dateOption.text = currentYear;      
-            dateOption.value = currentYear;        
-            dateDropdown.add(dateOption);      
-            currentYear -= 1;    
-        }
+                var title = $('#name').val();
+                var year = $('#year').val();
+                var rank = $('#rank').val();
+
+                if(title == "" || year == ""  || rank == "" ){
+                    $('#add-button').attr('disabled','disabled');
+                } else {
+                    $('#add-button').removeAttr('disabled');
+                }
+            }); --}}
+        });
+        
     </script>
