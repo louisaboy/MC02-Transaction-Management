@@ -22,7 +22,7 @@
                         <td>{{year}}</td>
                         <td>{{rank}}</td>
                         <td>
-                        <a href="/edit-movie/{{id}}"><button id="edit-button">Edit</button></a>
+                        <a href="/edit-movie/{{id}}-{{year}}"><button id="edit-button">Edit</button></a>
                         <a href="/delete-movie/{{id}}-{{year}}"><button id="delete-button">Delete</button></a>
                         </th>
                     </tr>
@@ -33,28 +33,36 @@
         </table>
         <br>
         {{#pagination currentPage pageCount size}}
+        
             <div class="pagination">
             {{#unless startFromFirstPage}}
                 <a href="/?page=1">&lt;</a>
             {{/unless}}
-
+            <p>{{pages.page}}</p>
             {{#each pages}}
                 {{#if isCurrent}}
-                [<a href="/?page={{currentPage}}">{{page}}</a>]
+                [<a href="/?page=">{{page}}</a>]
                 {{/if}}
                 {{#unless isCurrent}}
                 <a href="/?page={{currentPage}}">{{page}}</a>
                 {{/unless}}
             {{/each}}
             
+            
             {{#unless endAtLastPage}}
-                <a href="/?page={{this.pageCount}}">&gt;</a>
+                <a href="/?page={{pageCount}}">&gt;</a>
             {{/unless}}
             </div>
         {{/pagination}}
-        <p>{{pageCount}}</p>
+        
         <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
     </body>
     
 </html>
+<script>
+    $(document).ready(function(){
+
+    });
+</script> 
+
 

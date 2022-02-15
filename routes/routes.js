@@ -6,7 +6,7 @@ const app = express();
 // for get
 app.get('/', controller.getIndex);
 app.get('/add-movie', controller.getAdd);
-app.get('/edit-movie/:id', controller.getEdit);
+app.get('/edit-movie/:id-:year', controller.getEdit);
 app.get('/delete-movie/:id-:year', controller.postDelete);
 
 // for post
