@@ -1,14 +1,12 @@
 
 const Connection = require('mysql/lib/Connection');
 const db1 = require('../models/database1.js');
-// const db2 = require('../models/database2.js');
-// const db3 = require('../models/database3.js');
+const db2 = require('../models/database2.js');
+const db3 = require('../models/database3.js');
 
 var isNode1Online = true;
 var isNode2Online = true;
 var isNode3Online = true;
-// var isNode2Online = db2.isNode2Online;
-// var isNode3Online = db3.isNode3Online;
 
 // checks if node 1 is online
 db1.connect(function(err) {
@@ -21,24 +19,30 @@ db1.connect(function(err) {
 })
 
 // checks if node 2 is online
-// db2.connect(function(err) {
-//     if (err) {
-//         isNode2Online = false;
-//     }
-//     else isNode2Online = true;
-
-//     console.log("Node 2 Connected");
-// })
+db2.connect(function(err) {
+    if (err) {
+        isNode2Online = false;
+    }
+    else 
+    {
+    isNode2Online = true;
+    console.log("Node 2 Connected");
+    }
+})
 
 // checks if node 3 is online
-// db3.connect(function(err) {
-//     if (err) {
-//         isNode3Online = false;
-//     }
-//     else isNode3Online = true;
+db3.connect(function(err) {
+    if (err) {
+        isNode3Online = false;
+    }
+    else 
+    {
+        isNode3Online = true;
+        console.log("Node 3 Connected");
+    }
 
-//     console.log("Node 3 Connected");
-// })
+    
+})
 
 const controller = {
     getIndex: function (req, res) {
@@ -134,20 +138,21 @@ const controller = {
         setTimeout( function() {
             // for checking if max_id is still seen
             console.log("Max Id: " + max_row);
-
+            console.log(post.name);
             // node 2
+            console.log(req.body.year + " ASDJSAKDASDSA")
             if (req.body.year < 1980 && isNode2Online) {
                 console.log("post: " + post);
-                // db2.query("START TRANSACTION", function (err, result) {
-                // });
-                // db2.query(sqlInsert, post, (err, result) => {
-                //     if (err) throw err;
-                //     console.log(result);
-                // });
-                // db2.query("COMMIT", function (err, result) {
-                // });
-                // db2.query("DO SLEEP(2)", function (err, result) {
-                // });
+                db2.query("START TRANSACTION", function (err, result) {
+                });
+                db2.query(sqlInsert, post, (err, result) => {
+                    if (err) throw err;
+                    console.log(result);
+                });
+                db2.query("COMMIT", function (err, result) {
+                });
+                db2.query("DO SLEEP(2)", function (err, result) {
+                });
             }
 
             // node 3
@@ -155,10 +160,10 @@ const controller = {
                 console.log("post: " + post);
                 db3.query("START TRANSACTION", function (err, result) {
                 });
-                // db3.query(sqlInsert, post, (err, result) => {
-                //     if (err) throw err;
-                //     console.log(result);
-                // });
+                db3.query(sqlInsert, post, (err, result) => {
+                    if (err) throw err;
+                    console.log(result);
+                });
                 db3.query("COMMIT", function (err, result) {
                 });
                 db3.query("DO SLEEP(2)", function (err, result) {
@@ -190,27 +195,27 @@ const controller = {
             if (oldYear < 1980 && isNode2Online){
                 if (req.body.year < 1980) {
                     console.log("Updating Node 2");
-                    // db2.query(sqlUpdate, (err, result) => {
-                    //     if (err) throw err;
-                    //     console.log(result);
-                    // });
+                    db2.query(sqlUpdate, (err, result) => {
+                        if (err) throw err;
+                        console.log(result);
+                    });
                 }
                 else if (req.body.year >= 1980) {
                     var sqlDelete = "DELETE FROM movies WHERE `id` = " + userId + ";"
                     console.log("Deleting to Node 2");
-                    // db2.query( sqlDelete, (err, result) => {
-                    //     if (err) throw err;
-                    //     console.log("Query Deleted");
-                    // });  
+                    db2.query( sqlDelete, (err, result) => {
+                        if (err) throw err;
+                        console.log("Query Deleted");
+                    });  
 
                     if (isNode3Online) {
                         "Inserting to Node 3"
                         const post = {id: userId, name: req.body.name, year: req.body.year, rank: req.body.rank};
                         sqlInsert = "INSERT INTO movies SET ?"
-                        // db3.query(sqlInsert, post, (err, result) => {
-                        //     if (err) throw err;
-                        //     console.log(result);
-                        // });
+                        db3.query(sqlInsert, post, (err, result) => {
+                            if (err) throw err;
+                            console.log(result);
+                        });
                     }
                 }
             }
@@ -219,27 +224,27 @@ const controller = {
             else if (oldYear >= 1980 && isNode3Online){
                 if (req.body.year >= 1980) {
                     console.log("Updating Node 3");
-                    // db3.query(sqlUpdate, (err, result) => {
-                    //     if (err) throw err;
-                    //     console.log(result);
-                    // });
+                    db3.query(sqlUpdate, (err, result) => {
+                        if (err) throw err;
+                        console.log(result);
+                    });
                 }
                 else if (req.body.year < 1980) {
                     var sqlDelete = "DELETE FROM movies WHERE `id` = " + userId + ";"
                     console.log("Deleting to Node 3");
-                    // db3.query( sqlDelete, (err, result) => {
-                    //     if (err) throw err;
-                    //     console.log("Query Deleted");
-                    // });  
+                    db3.query( sqlDelete, (err, result) => {
+                        if (err) throw err;
+                        console.log("Query Deleted");
+                    });  
 
                     if (isNode2Online) {
                         "Inserting to Node 2"
                         const post = {id: userId, name: req.body.name, year: req.body.year, rank: req.body.rank};
                         sqlInsert = "INSERT INTO movies SET ?"
-                        // db2.query(sqlInsert, post, (err, result) => {
-                        //     if (err) throw err;
-                        //     console.log(result);
-                        // });
+                        db2.query(sqlInsert, post, (err, result) => {
+                            if (err) throw err;
+                            console.log(result);
+                        });
                     }
                 }
                 
@@ -271,19 +276,19 @@ const controller = {
             // node 2
             if (year < 1980 && isNode2Online) {
                 console.log("Deleting to Node 2");
-                // db2.query( sqlDelete, (err, result) => {
-                //     if (err) throw err;
-                //     console.log("Query Deleted");
-                // });  
+                db2.query( sqlDelete, (err, result) => {
+                    if (err) throw err;
+                    console.log("Query Deleted");
+                });  
             }
             // node 3
             else if (year >= 1980 && isNode3Online){
                 console.log("Deleting to Node 3");
-                // db3.query( sqlDelete, (err, result) => {
-                //     if (err) throw err;
-                //     console.log("Query Deleted");
+                db3.query( sqlDelete, (err, result) => {
+                    if (err) throw err;
+                    console.log("Query Deleted");
                     
-                // });  
+                });  
             }
             
         res.redirect('/');
