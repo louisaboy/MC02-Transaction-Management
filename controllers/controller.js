@@ -698,11 +698,16 @@ const controller = {
                                     return db1.rollback();
                                 }
                                 console.log(result);
-                                db1.commit(function(err){
+                                db1.query("DO SLEEP(10)", function(err){
                                     if (err) {
                                         return db1.rollback();
                                     }
-                                })
+                                    db1.commit(function(err){
+                                        if (err) {
+                                            return db1.rollback();
+                                        }
+                                    })
+                                });
                             });
                     }, 500);
                 });
