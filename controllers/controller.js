@@ -172,6 +172,7 @@ function recover () {
                 
             });
         }
+        // NODE 2
         else if (timeId2 < headTimeId && isNode2Online) {
             console.log("\n ------ RECOVERING TO NODE 2 ------ \n")
             let sql = "SELECT * FROM recovery WHERE `time_id` > " + timeId2;
@@ -213,19 +214,51 @@ function recover () {
                     }
 
                     else if (result[i].action == "EDIT") {
-                        try {
-                            console.log("EDITING TO RECOVER NODE 2 ---- Result " + i);
-                            let sql = "UPDATE movies SET `name`='" + result[i].name + "', `year`=" + result[i].year + ", `rank`=" + result[i].rank + " WHERE `id` = " + result[i].movie_id + ";";
-                            db2.query("START TRANSACTION", function(err, result){});
-                            db2.query(sql, function(err, result){
-                                if (err) throw err;
-                            })
-                            db2.query("COMMIT", function(err, result){});
-                        } catch (err) {
-                            db2.rollback();
-                            console.log("Rollback Successful");
-                            return 'Error in Updating to Node2';
+                        if(result[i].year < 1980) {
+                            try {
+                                console.log("EDITING TO RECOVER NODE 2 ---- Result " + i);
+                                let sql = "UPDATE movies SET `name`='" + result[i].name + "', `year`=" + result[i].year + ", `rank`=" + result[i].rank + " WHERE `id` = " + result[i].movie_id + ";";
+                                db2.query("START TRANSACTION", function(err, result){});
+                                db2.query(sql, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db2.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db2.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Updating to Node2';
+                            }
                         }
+                        else if (result[i].year >= 1980) {
+                            try {
+                                console.log("DELETING TO RECOVER NODE 2 ---- Result " + i);
+                                let sql = "DELETE FROM movies WHERE `id` = " + result[i].movie_id;
+                                db2.query("START TRANSACTION", function(err, result){})
+                                db2.query(sql, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db2.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db2.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Deleting to Node2';
+                            }
+                            try {
+                                console.log("INSERTING TO RECOVER NODE 3 ---- Result " + i);
+                                var post = {id: result[i].movie_id, name: result[i].name, year: result[i].year, rank: result[i].rank};
+                                let sql = "INSERT INTO movies SET ?";
+                                db3.query("START TRANSACTION", function(err, result){});
+                                db3.query(sql, post, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db3.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db3.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Inserting to Node3';
+                            }
+                        }
+                        
                     }
                     if (isNode2Online) {
                         try {
@@ -248,6 +281,8 @@ function recover () {
                 }
             });
         }
+
+        // NODE 3
         else if (timeId3 < headTimeId && isNode3Online) {
             console.log("\n ------ RECOVERING TO NODE 3 ------ \n")
             let sql = "SELECT * FROM recovery WHERE `time_id` > " + timeId3;
@@ -255,54 +290,89 @@ function recover () {
                 var time_id = timeId3+1;
                 for (var i = 0; i < headTimeId-timeId3; i++) {
                     console.log("\n -------- RESULT " + i + " -------- \n");
-                    if (result[i].action == "DELETE"){
-                        try {
-                            console.log("DELETING TO RECOVER NODE 3 ---- Result " + i);
-                            let sql = "DELETE FROM movies WHERE `id` = " + result[i].movie_id;
-                            db3.query("START TRANSACTION", function(err, result){})
-                            db3.query(sql, function(err, result){
-                                if (err) throw err;
-                            })
-                            db3.query("COMMIT", function(err, result){});
-                        } catch (err) {
-                            db3.rollback();
-                            console.log("Rollback Successful");
-                            return 'Error in Deleting to Node3';
+                    if (result[i].year >= 1980) {
+                        if (result[i].action == "DELETE"){
+                            try {
+                                console.log("DELETING TO RECOVER NODE 3 ---- Result " + i);
+                                let sql = "DELETE FROM movies WHERE `id` = " + result[i].movie_id;
+                                db3.query("START TRANSACTION", function(err, result){})
+                                db3.query(sql, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db3.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db3.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Deleting to Node3';
+                            }
+                            
+                        }
+    
+                        else if (result[i].action == "INSERT") {
+                            try {
+                                console.log("INSERTING TO RECOVER NODE 3 ---- Result " + i);
+                                var post = {id: result[i].movie_id, name: result[i].name, year: result[i].year, rank: result[i].rank};
+                                let sql = "INSERT INTO movies SET ?";
+                                db3.query("START TRANSACTION", function(err, result){});
+                                db3.query(sql, post, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db3.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db3.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Inserting to Node3';
+                            }
+                        }
+                    }
+                    
+
+                    if (result[i].action == "EDIT") {
+                        if (result[i].year >= 1980) {
+                            try {
+                                console.log("EDITING TO RECOVER NODE 3 ---- Result " + i);
+                                let sql = "UPDATE movies SET `name`='" + result[i].name + "', `year`=" + result[i].year + ", `rank`=" + result[i].rank + " WHERE `id` = " + result[i].movie_id + ";";
+                                db3.query("START TRANSACTION", function(err, result){});
+                                db3.query(sql, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db3.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db3.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Updating to Node3';
+                            }
+                        }
+                        else if (result[i].year < 1980) {
+                            try {
+                                console.log("DELETING TO RECOVER NODE 3 ---- Result " + i);
+                                let sql = "DELETE FROM movies WHERE `id` = " + result[i].movie_id;
+                                db3.query("START TRANSACTION", function(err, result){})
+                                db3.query(sql, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db3.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db3.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Deleting to Node3';
+                            }
+                            try {
+                                console.log("INSERTING TO RECOVER NODE 2 ---- Result " + i);
+                                var post = {id: result[i].movie_id, name: result[i].name, year: result[i].year, rank: result[i].rank};
+                                let sql = "INSERT INTO movies SET ?";
+                                db2.query("START TRANSACTION", function(err, result){});
+                                db2.query(sql, post, function(err, result){
+                                    if (err) throw err;
+                                })
+                                db2.query("COMMIT", function(err, result){});
+                            } catch (err) {
+                                db2.rollback();
+                                console.log("Rollback Successful");
+                                return 'Error in Inserting to Node2';
+                            }
                         }
                         
-                    }
-
-                    else if (result[i].action == "INSERT") {
-                        try {
-                            console.log("INSERTING TO RECOVER NODE 3 ---- Result " + i);
-                            var post = {id: result[i].movie_id, name: result[i].name, year: result[i].year, rank: result[i].rank};
-                            let sql = "INSERT INTO movies SET ?";
-                            db3.query("START TRANSACTION", function(err, result){});
-                            db3.query(sql, post, function(err, result){
-                                if (err) throw err;
-                            })
-                            db3.query("COMMIT", function(err, result){});
-                        } catch (err) {
-                            db3.rollback();
-                            console.log("Rollback Successful");
-                            return 'Error in Inserting to Node3';
-                        }
-                    }
-
-                    else if (result[i].action == "EDIT") {
-                        try {
-                            console.log("EDITING TO RECOVER NODE 3 ---- Result " + i);
-                            let sql = "UPDATE movies SET `name`='" + result[i].name + "', `year`=" + result[i].year + ", `rank`=" + result[i].rank + " WHERE `id` = " + result[i].movie_id + ";";
-                            db3.query("START TRANSACTION", function(err, result){});
-                            db3.query(sql, function(err, result){
-                                if (err) throw err;
-                            })
-                            db3.query("COMMIT", function(err, result){});
-                        } catch (err) {
-                            db3.rollback();
-                            console.log("Rollback Successful");
-                            return 'Error in Updating to Node3';
-                        }
                     }
 
                     if (isNode3Online) {
@@ -595,42 +665,49 @@ const controller = {
 
         // node 1
         if (isNode1Online) {
-            db1.query("START TRANSACTION", function(err){});
-            db1.query(sql, function(err, results) {
-            
-                if(err) throw err;
-                // increments the id of the highest id since autoincrement isn't possible
-                max_row = results[0].max_row
-                console.log(max_row);
-                db2.query("SELECT MAX(id) AS max_row FROM movies", function(err, result2) {
-                    if (max_row < result2[0].max_row)
-                        max_row = result2[0].max_row;
+            db1.beginTransaction(function(err) {
+                if (err) {}
+                db1.query(sql, function(err, results) {
+                    if(err) {
+                        return db1.rollback();
+                    }
+                    // increments the id of the highest id since autoincrement isn't possible
+                    max_row = results[0].max_row
+                    console.log(max_row);
+                    db2.query("SELECT MAX(id) AS max_row FROM movies", function(err, result2) {
+                        if(err) {
+                            return db1.rollback();
+                        }
+                        if (max_row < result2[0].max_row)
+                            max_row = result2[0].max_row;
                         db3.query("SELECT MAX(id) AS max_row FROM movies", function(err, result3) {
+                            if(err) {
+                                return db1.rollback()
+                            }
                             if (max_row < result3[0].max_row)
                                 max_row = result3[0].max_row;
+                            
                         });
+                    });
+    
+                    setTimeout(function() {
+                        max_row++;
+                            post = {id: max_row, name: req.body.name, year: req.body.year, rank: req.body.rank};
+                            db1.query(sqlInsert, post, (err, result) => {
+                                if (err) {
+                                    return db1.rollback();
+                                }
+                                console.log(result);
+                                db1.commit(function(err){
+                                    if (err) {
+                                        return db1.rollback();
+                                    }
+                                })
+                            });
+                    }, 500);
                 });
-
-                setTimeout(function() {
-                    max_row++;
-                    try {
-                        post = {id: max_row, name: req.body.name, year: req.body.year, rank: req.body.rank};
-                        db1.query("START TRANSACTION", function (err, result) {
-                        });
-                        db1.query(sqlInsert, post, (err, result) => {
-                            if (err) throw err;
-                            console.log(result);
-                        });
-                        db1.query("COMMIT", function (err, result) {
-                        });
-                    } catch (err) {
-                        db1.rollback();
-                        console.log('Rollback successful');
-                        return 'Error Inserting to Node1';
-                    }
-                }, 500);
-            });
-            db1.query("COMMIT", function(err){});
+            })
+            
         }
         setTimeout( function() {
             // for checking if max_id is still seen
@@ -730,21 +807,23 @@ const controller = {
         
         // node 1
         if (isNode1Online){
-            try {
+            db1.beginTransaction(function(err) {
+                if (err) {}
                 console.log("Updating Node 1");
-                db1.query("START TRANSACTION", function (err, result) {
-                });
                 db1.query(sqlUpdate, (err, result) => {
-                    if (err) throw err;
+                    if (err) {
+                        return db1.rollback();
+                    }
                     console.log(result);
+
+                    db1.commit(function(err) {
+                        if (err) {
+                            db1.rollback();
+                        }
+                    });
                 });
-                db1.query("COMMIT", function (err, result) {
-                });
-            } catch (err) {
-                db1.rollback();
-                console.log("Rollback Successful");
-                return 'Error Updating Movie to Node2';
-            }
+            })
+            
             
         }
         
@@ -802,7 +881,7 @@ const controller = {
                         } catch (err) {
                             db3.rollback();
                             console.log("Rollback Successful");
-                            return 'Error in Inserting to Node3'
+                            return 'Error in Inserting to Node3';
                         }
                     }
                 }
@@ -888,20 +967,22 @@ const controller = {
         // node 1
         if (isNode1Online)
         {
-            try {
+            db1.beginTransaction(function(err){
+                if(err) {}
                 console.log("Deleting to Node 1");
-                db1.query("START TRANSACTION", function(err){});
                 db1.query( sqlDelete, (err, result) => {
-                    if (err) throw err;
+                    if (err) {
+                        return db1.rollback();
+                    }
                     console.log("Query Deleted");
-                });    
-                db1.query("COMMIT", function(err){});
-            } catch (err) {
-                db1.rollback();
-                console.log("Rollback Successful");
-                return 'Error Deleting to Node1';
-            }
-               
+
+                    db1.commit(function(err){
+                        if (err) {
+                            return db1.rollback();
+                        }
+                    });
+                });
+            });
         }
 
         setTimeout(function() {
