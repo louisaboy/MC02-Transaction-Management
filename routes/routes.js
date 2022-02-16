@@ -7,7 +7,7 @@ const app = express();
 app.get('/', controller.getIndex);
 app.get('/add-movie', controller.getAdd);
 app.get('/edit-movie/:id-:year', controller.getEdit);
-app.get('/delete-movie/:id-:year', controller.postDelete);
+app.get('/delete-movie/:id-:year-:name-:rank', controller.postDelete);
 
 // for post
 app.post('/add-movie', controller.postAdd);
