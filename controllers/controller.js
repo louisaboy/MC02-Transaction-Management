@@ -172,7 +172,7 @@ function recover () {
                 
             });
         }
-        if (timeId2 < headTimeId && isNode2Online) {
+        else if (timeId2 < headTimeId && isNode2Online) {
             console.log("\n ------ RECOVERING TO NODE 2 ------ \n")
             let sql = "SELECT * FROM recovery WHERE `time_id` > " + timeId2;
             db1.query(sql, function(err, result){
@@ -248,7 +248,7 @@ function recover () {
                 }
             });
         }
-        if (timeId3 < headTimeId && isNode3Online) {
+        else if (timeId3 < headTimeId && isNode3Online) {
             console.log("\n ------ RECOVERING TO NODE 3 ------ \n")
             let sql = "SELECT * FROM recovery WHERE `time_id` > " + timeId3;
             db1.query(sql, function(err, result){
@@ -327,7 +327,7 @@ function recover () {
 
             });
         }
-    }, 500);
+    }, 2000);
 
 }
 
