@@ -32,8 +32,7 @@
                 </tbody>
         </table>
         <br>
-        {{#pagination currentPage pageCount size}}
-        
+        {{!-- {{#pagination currentPage pageCount size}}
             <div class="pagination">
             {{#unless startFromFirstPage}}
                 <a href="/?page=1">&lt;</a>
@@ -41,19 +40,18 @@
             <p>{{pages.page}}</p>
             {{#each pages}}
                 {{#if isCurrent}}
-                [<a href="/?page=">{{page}}</a>]
+                [<a href="/?page=">Next</a>]
                 {{/if}}
                 {{#unless isCurrent}}
-                <a href="/?page={{currentPage}}">{{page}}</a>
+                <a href="/?page={{currentPage}}" >Prev</a>
                 {{/unless}}
             {{/each}}
             
-            
             {{#unless endAtLastPage}}
-                <a href="/?page={{pageCount}}">&gt;</a>
+                <a href="/?page={{pageCount}}" id="endPage">&gt;</a>
             {{/unless}}
             </div>
-        {{/pagination}}
+        {{/pagination}} --}}
         
         <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
     </body>
@@ -61,8 +59,11 @@
 </html>
 <script>
     $(document).ready(function(){
-
-    });
-</script> 
+        var page;
+        $('#endPage').click(function(){
+            $()
+        });
+    })
+</script>
 
 
