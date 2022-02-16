@@ -5,7 +5,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
-        <h1>MC02 Transaction Management</h1>
+        <h1 style="text-align: center;">MC02 Transaction Management </h1><a href="/add-movie" ><button id="add-movie" style="margin-right: auto; margin-left: auto; display: block">Add Movie</button></a>
+        <br>
         <table>
             <thead>
                 <tr>
@@ -24,7 +25,7 @@
                         <td>
                         <a href="/edit-movie/{{id}}-{{year}}"><button id="edit-button">Edit</button></a>
                         <a href="/delete-movie/{{id}}-{{year}}-{{name}}-{{rank}}"><button id="delete-button">Delete</button></a>
-                        </th>
+                        </td>
                     </tr>
                 {{else}}
                     <p>No movies to display</p>
@@ -53,7 +54,7 @@
             </div>
         {{/pagination}} --}}
         
-        <a href="/add-movie"><button id="add-movie" >Add Movie</button></a>
+        
     </body>
     
 </html>
